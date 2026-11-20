@@ -1,4 +1,3 @@
-"""Clase Tablero."""
 import random
 import numpy as np
 from variables import (TAMANO_TABLERO, BARCOS, DIRECCIONES, AGUA, AGUA_DISPARADA,
@@ -12,36 +11,37 @@ class Tablero:
         self.id_jugador = id_jugador
         self.tamano = tamano
         self.barcos = barcos
-        # tablero: barcos + disparos recibidos (lo ve su dueño)
         self.tablero = np.full((tamano, tamano), AGUA)
-        # disparos: solo disparos recibidos (lo ve el rival)
         self.disparos = np.full((tamano, tamano), AGUA)
 
-    def _casillas_libres(self, casillas):
-        """Devuelve True si todas las casillas están dentro del tablero y sin barco."""
+    def hay_sitio(self, casillas):
+        """Devuelve True si todas las casillas están dentro y libres."""
         for fila, col in casillas:
-            if not (0 <= fila < self.tamano and 0 <= col < self.tamano):
+            if fila < 0 or fila >= self.tamano or col < 0 or col >= self.tamano:
                 return False
             if self.tablero[fila, col] != AGUA:
                 return False
         return True
 
     def colocar_barcos(self):
-        """Coloca todos los barcos al azar, enteros dentro del tablero y sin solaparse."""
+        """Coloca todos los barcos al azar sin salirse ni pisarse."""
         for eslora in self.barcos.values():
             colocado = False
             while not colocado:
                 fila = random.randint(0, self.tamano - 1)
                 col = random.randint(0, self.tamano - 1)
-                d_fila, d_col = DIRECCIONES[random.choice(list(DIRECCIONES))]
-                casillas = [(fila + d_fila * i, col + d_col * i) for i in range(eslora)]
-                if self._casillas_libres(casillas):
+                orientacion = random.choice(list(DIRECCIONES))
+                cambio_fila, cambio_col = DIRECCIONES[orientacion]
+                casillas = []
+                for i in range(eslora):
+                    casillas.append((fila + cambio_fila * i, col + cambio_col * i))
+                if self.hay_sitio(casillas):
                     for f, c in casillas:
                         self.tablero[f, c] = BARCO
                     colocado = True
 
     def recibir_disparo(self, fila, columna):
-        """Marca el disparo en los dos arrays y devuelve tocado, agua o repetido."""
+        """Marca el disparo y devuelve tocado, agua o repetido."""
         if self.disparos[fila, columna] != AGUA:
             return RES_REPETIDO
         if self.tablero[fila, columna] == BARCO:
@@ -53,12 +53,15 @@ class Tablero:
         return RES_AGUA
 
     def quedan_barcos(self):
-        """True si todavía hay alguna casilla de barco sin tocar."""
-        return bool((self.tablero == BARCO).any())
+        """Devuelve True si queda alguna casilla de barco sin tocar."""
+        return BARCO in self.tablero
 
     def mostrar(self, ocultar_barcos=False):
-        """Imprime el tablero. Con ocultar_barcos=True solo enseña los disparos."""
-        matriz = self.disparos if ocultar_barcos else self.tablero
+        """Imprime el tablero, sin barcos si ocultar_barcos es True."""
+        if ocultar_barcos:
+            matriz = self.disparos
+        else:
+            matriz = self.tablero
         print("   " + " ".join(str(i) for i in range(self.tamano)))
-        for i, fila in enumerate(matriz):
-            print(f"{i:>2} " + " ".join(fila))
+        for i in range(self.tamano):
+            print(f"{i:>2} " + " ".join(matriz[i]))

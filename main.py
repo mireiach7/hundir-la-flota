@@ -1,7 +1,6 @@
-"""Hundir la flota en terminal. Se ejecuta con: python main.py"""
 from clases import Tablero
 from funciones import mostrar_instrucciones, pedir_coordenadas, elegir_disparo_maquina
-from variables import RES_TOCADO
+from variables import RES_TOCADO, MSG_GANAS, MSG_PIERDES
 
 
 def main():
@@ -12,8 +11,9 @@ def main():
     jugador.colocar_barcos()
     maquina.colocar_barcos()
 
+    mensaje_final = ""
+
     while True:
-        # --- Turno del jugador ---
         turno_jugador = True
         while turno_jugador:
             print("\nTU TABLERO:")
@@ -23,20 +23,23 @@ def main():
 
             coordenadas = pedir_coordenadas(maquina)
             if coordenadas is None:
-                print("Has salido de la partida.")
-                return
-            resultado = maquina.recibir_disparo(*coordenadas)
+                mensaje_final = "Has salido de la partida."
+                break
+            fila, columna = coordenadas
+            resultado = maquina.recibir_disparo(fila, columna)
 
             if resultado == RES_TOCADO:
-                print("¡Tocado! Vuelves a disparar.")
+                print("¡Tocado!")
                 if not maquina.quedan_barcos():
-                    print("\n¡Has ganado! Has hundido toda la flota enemiga.")
-                    return
+                    mensaje_final = MSG_GANAS
+                    break
             else:
                 print("Agua.")
                 turno_jugador = False
 
-        # --- Turno de la máquina ---
+        if mensaje_final:
+            break
+
         turno_maquina = True
         while turno_maquina:
             fila, columna = elegir_disparo_maquina(jugador)
@@ -45,10 +48,15 @@ def main():
 
             if resultado == RES_TOCADO:
                 if not jugador.quedan_barcos():
-                    print("\nHas perdido. La máquina ha hundido tu flota.")
-                    return
+                    mensaje_final = MSG_PIERDES
+                    break
             else:
                 turno_maquina = False
+
+        if mensaje_final:
+            break
+
+    print(mensaje_final)
 
 
 if __name__ == "__main__":
