@@ -1,5 +1,8 @@
+# Constantes del juego
+
 TAMANO_TABLERO = 10
 
+# Nombre del barco: eslora (casillas que ocupa)
 BARCOS = {
     "Lancha 1": 1,
     "Lancha 2": 1,
@@ -13,6 +16,7 @@ BARCOS = {
     "Portaaviones": 4,
 }
 
+# Orientaciones posibles: (cambio en fila, cambio en columna)
 ORIENTACIONES = {
     "N": (-1, 0),
     "S": (1, 0),
@@ -20,11 +24,13 @@ ORIENTACIONES = {
     "O": (0, -1),
 }
 
+# Simbolos del tablero
 AGUA = "."          # agua sin disparar
 AGUA_DISPARADA = "o"  # agua donde se ha disparado
 BARCO = "B"         # barco sin tocar
 TOCADO = "X"        # barco tocado
 
-MENSAJE_BIENVENIDA = "HUNDIR LA FLOTA"
+# Mensajes fijos
+MENSAJE_BIENVENIDA = "=== HUNDIR LA FLOTA ==="
 MENSAJE_ERROR = "Entrada no valida. Escribe fila y columna entre 0 y 9, por ejemplo: 3,5"
 MENSAJE_REPETIDO = "Ya has disparado ahi, prueba otra casilla."

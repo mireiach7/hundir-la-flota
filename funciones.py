@@ -3,6 +3,7 @@ import variables
 
 
 def imprimir_instrucciones():
+    """Muestra como se juega."""
     print(variables.MENSAJE_BIENVENIDA)
     print("Juegas contra la maquina. Cada uno tiene un tablero de 10x10.")
     print("Escribe las coordenadas como fila,columna (de 0 a 9). Ejemplo: 3,5")
@@ -16,6 +17,7 @@ def imprimir_instrucciones():
 
 
 def pedir_coordenadas():
+    """Pide fila y columna al jugador hasta que escriba algo valido."""
     while True:
         texto = input("Tu disparo (fila,columna): ")
         try:
@@ -35,6 +37,7 @@ def pedir_coordenadas():
 
 
 def disparo_maquina(tablero_jugador):
+    """Elige una casilla aleatoria a la que la maquina no haya disparado ya."""
     while True:
         fila = random.randint(0, variables.TAMANO_TABLERO - 1)
         columna = random.randint(0, variables.TAMANO_TABLERO - 1)
