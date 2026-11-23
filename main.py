@@ -2,15 +2,12 @@ from clases import Tablero
 import funciones
 
 funciones.imprimir_instrucciones()
-
-# Creamos los dos tableros y colocamos los barcos (solo una vez)
 jugador = Tablero("jugador")
 maquina = Tablero("maquina")
 jugador.colocar_barcos()
 maquina.colocar_barcos()
 
 while True:
-    # --- Turno del jugador ---
     while True:
         print("\nTu tablero:")
         jugador.mostrar()
@@ -35,7 +32,6 @@ while True:
         print("\nHas ganado, enhorabuena!")
         break
 
-    # --- Turno de la maquina ---
     print("\nTurno de la maquina...")
     while True:
         fila, columna = funciones.disparo_maquina(jugador)
