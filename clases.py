@@ -1,67 +1,76 @@
 import random
 import numpy as np
-from variables import (TAMANO_TABLERO, BARCOS, DIRECCIONES, AGUA, AGUA_DISPARADA,
-                       BARCO, TOCADO, RES_TOCADO, RES_AGUA, RES_REPETIDO)
+import variables
 
 
 class Tablero:
-    """Tablero de un jugador con sus barcos y los disparos recibidos."""
+    """Tablero de un jugador (el humano o la maquina)."""
 
-    def __init__(self, id_jugador, tamano=TAMANO_TABLERO, barcos=BARCOS):
+    def __init__(self, id_jugador):
         self.id_jugador = id_jugador
-        self.tamano = tamano
-        self.barcos = barcos
-        self.tablero = np.full((tamano, tamano), AGUA)
-        self.disparos = np.full((tamano, tamano), AGUA)
-
-    def hay_sitio(self, casillas):
-        """Devuelve True si todas las casillas están dentro y libres."""
-        for fila, col in casillas:
-            if fila < 0 or fila >= self.tamano or col < 0 or col >= self.tamano:
-                return False
-            if self.tablero[fila, col] != AGUA:
-                return False
-        return True
+        self.dimension = variables.TAMANO_TABLERO
+        self.barcos = variables.BARCOS
+        # tablero: barcos + disparos recibidos
+        self.tablero = np.full((self.dimension, self.dimension), variables.AGUA)
+        # disparos: solo disparos recibidos (sin barcos)
+        self.disparos = np.full((self.dimension, self.dimension), variables.AGUA)
+        # vidas = casillas con barco sin tocar
+        self.vidas = sum(self.barcos.values())
 
     def colocar_barcos(self):
-        """Coloca todos los barcos al azar sin salirse ni pisarse."""
-        for eslora in self.barcos.values():
+        """Coloca todos los barcos de forma aleatoria sin salirse ni pisarse."""
+        for nombre, eslora in self.barcos.items():
             colocado = False
             while not colocado:
-                fila = random.randint(0, self.tamano - 1)
-                col = random.randint(0, self.tamano - 1)
-                orientacion = random.choice(list(DIRECCIONES))
-                cambio_fila, cambio_col = DIRECCIONES[orientacion]
+                fila = random.randint(0, self.dimension - 1)
+                columna = random.randint(0, self.dimension - 1)
+                orientacion = random.choice(list(variables.ORIENTACIONES))
+                cambio_fila, cambio_columna = variables.ORIENTACIONES[orientacion]
+
+                # calculamos las casillas que ocuparia el barco
                 casillas = []
                 for i in range(eslora):
-                    casillas.append((fila + cambio_fila * i, col + cambio_col * i))
-                if self.hay_sitio(casillas):
+                    casillas.append((fila + cambio_fila * i, columna + cambio_columna * i))
+
+                # comprobamos que todas estan dentro y libres
+                valido = True
+                for f, c in casillas:
+                    if f < 0 or f >= self.dimension or c < 0 or c >= self.dimension:
+                        valido = False
+                    elif self.tablero[f, c] != variables.AGUA:
+                        valido = False
+
+                if valido:
                     for f, c in casillas:
-                        self.tablero[f, c] = BARCO
+                        self.tablero[f, c] = variables.BARCO
                     colocado = True
 
     def recibir_disparo(self, fila, columna):
-        """Marca el disparo y devuelve tocado, agua o repetido."""
-        if self.disparos[fila, columna] != AGUA:
-            return RES_REPETIDO
-        if self.tablero[fila, columna] == BARCO:
-            self.tablero[fila, columna] = TOCADO
-            self.disparos[fila, columna] = TOCADO
-            return RES_TOCADO
-        self.tablero[fila, columna] = AGUA_DISPARADA
-        self.disparos[fila, columna] = AGUA_DISPARADA
-        return RES_AGUA
+        """Devuelve 'tocado', 'agua' o 'repetido' y marca los dos arrays."""
+        if self.disparos[fila, columna] != variables.AGUA:
+            return "repetido"
 
-    def quedan_barcos(self):
-        """Devuelve True si queda alguna casilla de barco sin tocar."""
-        return BARCO in self.tablero
+        if self.tablero[fila, columna] == variables.BARCO:
+            self.tablero[fila, columna] = variables.TOCADO
+            self.disparos[fila, columna] = variables.TOCADO
+            self.vidas -= 1
+            return "tocado"
+
+        self.tablero[fila, columna] = variables.AGUA_DISPARADA
+        self.disparos[fila, columna] = variables.AGUA_DISPARADA
+        return "agua"
 
     def mostrar(self, ocultar_barcos=False):
-        """Imprime el tablero, sin barcos si ocultar_barcos es True."""
+        """Imprime el tablero. Si ocultar_barcos es True solo muestra los disparos."""
         if ocultar_barcos:
             matriz = self.disparos
         else:
             matriz = self.tablero
-        print("   " + " ".join(str(i) for i in range(self.tamano)))
-        for i in range(self.tamano):
-            print(f"{i:>2} " + " ".join(matriz[i]))
+
+        print("   " + " ".join(str(i) for i in range(self.dimension)))
+        for i in range(self.dimension):
+            print(str(i).rjust(2) + " " + " ".join(matriz[i]))
+
+    def quedan_barcos(self):
+        """True si todavia quedan casillas con barco sin tocar."""
+        return self.vidas > 0

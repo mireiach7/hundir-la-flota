@@ -1,43 +1,45 @@
 import random
-from variables import (TAMANO_TABLERO, AGUA, MSG_BIENVENIDA, MSG_INSTRUCCIONES,
-                       MSG_ENTRADA_INVALIDA, MSG_REPETIDO)
+import variables
 
 
-def mostrar_instrucciones():
-    """Imprime la bienvenida y las reglas."""
-    print(MSG_BIENVENIDA)
-    print(MSG_INSTRUCCIONES)
+def imprimir_instrucciones():
+    """Muestra como se juega."""
+    print(variables.MENSAJE_BIENVENIDA)
+    print("Juegas contra la maquina. Cada uno tiene un tablero de 10x10.")
+    print("Escribe las coordenadas como fila,columna (de 0 a 9). Ejemplo: 3,5")
+    print("Si aciertas, vuelves a disparar. Si fallas, dispara la maquina.")
+    print("Simbolos:")
+    print(f"  {variables.AGUA} agua sin disparar")
+    print(f"  {variables.AGUA_DISPARADA} agua donde se ha disparado")
+    print(f"  {variables.BARCO} barco sin tocar")
+    print(f"  {variables.TOCADO} barco tocado")
+    print()
 
 
-def pedir_coordenadas(tablero_rival):
-    """Pide fila y columna hasta que sean válidas. Devuelve None si escribe salir."""
+def pedir_coordenadas():
+    """Pide fila y columna al jugador hasta que escriba algo valido."""
     while True:
-        texto = input("Tu disparo (fila,columna): ").strip().lower()
-        if texto == "salir":
-            return None
-        partes = texto.replace(",", " ").split()
-        if len(partes) != 2:
-            print(MSG_ENTRADA_INVALIDA)
-            continue
+        texto = input("Tu disparo (fila,columna): ")
         try:
+            partes = texto.split(",")
+            if len(partes) != 2:
+                raise ValueError
             fila = int(partes[0])
             columna = int(partes[1])
+            if fila < 0 or fila >= variables.TAMANO_TABLERO:
+                raise ValueError
+            if columna < 0 or columna >= variables.TAMANO_TABLERO:
+                raise ValueError
+            return fila, columna
         except ValueError:
-            print(MSG_ENTRADA_INVALIDA)
+            print(variables.MENSAJE_ERROR)
             continue
-        if fila < 0 or fila >= TAMANO_TABLERO or columna < 0 or columna >= TAMANO_TABLERO:
-            print(MSG_ENTRADA_INVALIDA)
-            continue
-        if tablero_rival.disparos[fila, columna] != AGUA:
-            print(MSG_REPETIDO)
-            continue
-        return fila, columna
 
 
-def elegir_disparo_maquina(tablero_jugador):
-    """Elige una casilla al azar a la que aún no se ha disparado."""
+def disparo_maquina(tablero_jugador):
+    """Elige una casilla aleatoria a la que la maquina no haya disparado ya."""
     while True:
-        fila = random.randint(0, TAMANO_TABLERO - 1)
-        columna = random.randint(0, TAMANO_TABLERO - 1)
-        if tablero_jugador.disparos[fila, columna] == AGUA:
+        fila = random.randint(0, variables.TAMANO_TABLERO - 1)
+        columna = random.randint(0, variables.TAMANO_TABLERO - 1)
+        if tablero_jugador.disparos[fila, columna] == variables.AGUA:
             return fila, columna
