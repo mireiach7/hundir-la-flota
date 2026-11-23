@@ -13,28 +13,28 @@
 
 ### Prompt 1 – variables.py
 - **Objetivo:** Resolver una duda puntual sobre la organización de las variables del juego.
-- **Prompt:** «¿Qué tipo de variables y constantes debería definir al principio de un juego de Hundir la Flota en Python para organizar mejor el tablero y los barcos?»
-- **Que cambie:** Revisé las sugerencias y utilicé únicamente las que encajaban con la estructura que ya tenía.
-- **Como lo comprobe:** Comprobando que las variables funcionaban correctamente al ejecutar el programa.
-- **Que decidi yo:** Elegí los nombres, valores y organización final de las variables.
+- **Prompt:** «¿Cómo puedo organizar las variables de un juego de Hundir la Flota para tener más claro el tamaño del tablero, los barcos y los símbolos que se utilizan durante la partida?»
+- **Que cambie:** Revisé las variables y adapté sus nombres y valores a lo que necesitaba el juego.
+- **Como lo comprobe:** Revisando que los valores fueran correctos y que se utilizaran adecuadamente en el resto del programa.
+- **Que decidi yo:** Decidí los valores definitivos de las variables y cuáles necesitaba realmente.
 
 ### Prompt 2 – clases.py
-- **Objetivo:** Entender y mejorar la estructura de las clases del juego.
-- **Prompt:** «¿Cómo puedo organizar una clase Barco en Python para guardar su tamaño y sus posiciones dentro del tablero? Explícame qué atributos podría necesitar.»
-- **Que cambie:** Adapté la idea de los atributos y la estructura de la clase a mi código.
-- **Como lo comprobe:** Creando objetos de prueba y verificando que guardaban correctamente sus datos.
-- **Que decidi yo:** Decidí cómo representar los barcos y qué información debía almacenar cada objeto.
+- **Objetivo:** Entender mejor la estructura y el funcionamiento del código.
+- **Prompt:** «¿Me puedes explicar cómo organizar el código de Hundir la Flota para que sea más fácil de entender y mantener, y cómo guardar la información de los barcos sin complicar demasiado el programa?»
+- **Que cambie:** Revisé la estructura propuesta y adapté algunas partes para que encajaran con el resto de archivos.
+- **Como lo comprobe:** Revisando cómo se guardaba y utilizaba la información de los barcos durante el juego.
+- **Que decidi yo:** Decidí cómo quería representar los barcos y qué información era necesaria guardar.
 
 ### Prompt 3 – funciones.py
-- **Objetivo:** Resolver dudas sobre las funciones de disparos y comprobación del tablero.
-- **Prompt:** «¿Cómo puedo hacer una función en Python que compruebe si las coordenadas introducidas por un jugador son válidas y si el disparo ha tocado un barco, sin rehacer todo el código?»
-- **Que cambie:** Modifiqué algunas comprobaciones y adapté la lógica de la función a las características de mi juego.
-- **Como lo comprobe:** Modifiqué algunas comprobaciones y adapté la lógica de la función a las características de mi juego.
-- **Que decidi yo:** Decidí cómo gestionar los disparos y qué mensajes mostrar según el resultado.
+- **Objetivo:** Mejorar la comprobación de los disparos y la entrada de coordenadas.
+- **Prompt:** «¿Cómo puedo comprobar en Python que las coordenadas que introduce el jugador son válidas y detectar si un disparo es un acierto, un fallo o una casilla a la que ya se había disparado?»
+- **Que cambie:** Adapté las comprobaciones para controlar mejor las coordenadas y los diferentes resultados de los disparos.
+- **Como lo comprobe:** Probando diferentes entradas, como coordenadas con letras, 11,2, un solo número y disparos repetidos, para comprobar cómo reaccionaba el programa.
+- **Que decidi yo:** Decidí cómo debía reaccionar el juego ante cada tipo de entrada y qué mensajes debía mostrar.
 
 ### Prompt 4 – main.py
-- **Objetivo:** Mejorar el orden y funcionamiento de la partida.
-- **Prompt:** «¿Cómo puedo organizar el archivo principal de un juego por turnos en Python para controlar el orden de los jugadores y comprobar cuándo termina la partida?»
-- **Que cambie:** Ajusté la estructura del bucle principal y las llamadas a las funciones para que encajaran con el resto de los archivos.
-- **Como lo comprobe:** Ejecutando varias partidas desde la terminal de Visual Studio Code y revisando que los turnos y el final de la partida funcionaran correctamente.
-- **Que decidi yo:**  Decidí el funcionamiento general de la partida, el orden de los turnos y las condiciones para terminar el juego.
+- **Objetivo:** Comprender y mejorar el flujo general de la partida.
+- **Prompt:** «¿Cómo puedo organizar el archivo main.py de un juego de Hundir la Flota para controlar el inicio de la partida, los turnos de los jugadores, los disparos y la condición de victoria, utilizando las funciones de los otros archivos?»
+- **Que cambie:** Revisé el orden de las llamadas y adapté el funcionamiento principal para que estuviera conectado correctamente con el resto del proyecto.
+- **Como lo comprobe:** Ejecutando el juego y revisando el flujo de la partida, los turnos y la condición de finalización.
+- **Que decidi yo:**  Decidí el orden del juego, cómo se gestionaban los turnos y cuándo debía terminar la partida.

@@ -7,6 +7,7 @@ class Tablero:
     """Tablero de un jugador (el humano o la maquina)."""
 
     def __init__(self, id_jugador):
+        """Crea el tablero vacio con las dimensiones, los barcos y las vidas."""
         self.id_jugador = id_jugador
         self.dimension = variables.TAMANO_TABLERO
         self.barcos = variables.BARCOS

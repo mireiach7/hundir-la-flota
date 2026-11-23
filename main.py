@@ -1,5 +1,6 @@
 from clases import Tablero
 import funciones
+import variables
 
 funciones.imprimir_instrucciones()
 
@@ -21,7 +22,7 @@ while True:
         resultado = maquina.recibir_disparo(fila, columna)
 
         if resultado == "repetido":
-            print("Ya has disparado ahi, prueba otra casilla.")
+            print(variables.MENSAJE_REPETIDO)
             continue
         elif resultado == "tocado":
             print("Tocado! Vuelves a disparar.")
