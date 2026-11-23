@@ -31,6 +31,6 @@ BARCO = "B"         # barco sin tocar
 TOCADO = "X"        # barco tocado
 
 # Mensajes fijos
-MENSAJE_BIENVENIDA = "=== HUNDIR LA FLOTA ==="
+MENSAJE_BIENVENIDA = "HUNDIR LA FLOTA"
 MENSAJE_ERROR = "Entrada no valida. Escribe fila y columna entre 0 y 9, por ejemplo: 3,5"
 MENSAJE_REPETIDO = "Ya has disparado ahi, prueba otra casilla."
